@@ -30,13 +30,13 @@ Trong môi trường doanh nghiệp (HR, IT Helpdesk, Tài chính, CSKH), hệ t
 ```mermaid
 flowchart TD
     U[👤 Truy vấn của Nhân viên] --> R[🔍 Vector Retriever\nChromaDB + BAAI/bge-m3\nRetrieve Top-K = 5 Chunks]
-    R --> G[🛡️ RAGShield-VN Guard Middleware\nScoring Batch 5 Chunks vớiDetector]
+    R --> G[🛡️ RAGShield-VN Guard Middleware\nScoring Batch 5 Chunks với Detector]
 
     G --> C1{"Đánh giá Điểm rủi ro p_i\nT_low = 0.45 | T_high = 0.70"}
 
     C1 -->|p_i < 0.45| A1[✅ ALLOW\nGiữ nguyên văn bản gốc]
-    C1 -->|0.45 <= p_i < 0.70| S1[🧹 SANITIZE_AND_FLAG\nTách câu & cắt bỏ câu có p_sent >= 0.45\nThay bằng nhãn cảnh báo bảo mật]
-    C1 -->|p_i >= 0.70| B1{Kiểm tra Mixed Payload\nSau khi lọc câu độc hại,\nphần sạch có p_clean < 0.45?}
+    C1 -->|0.45 <= p_i < 0.70| S1["🧹 SANITIZE_AND_FLAG\nTách câu & cắt bỏ câu có p_sent >= 0.45\nThay bằng nhãn cảnh báo bảo mật"]
+    C1 -->|p_i >= 0.70| B1{"Kiểm tra Mixed Payload\nSau khi lọc câu độc hại,\nphần sạch có p_clean < 0.45?"}
 
     B1 -->|Có & câu sạch >= 1| S1
     B1 -->|Không: Độc hại toàn phần| Q1[🚫 BLOCK_AND_QUARANTINE\nCách ly chunk & Kích hoạt Retrieval Fallback\nLấy chunk sạch từ Rank 4, Rank 5]
@@ -45,10 +45,9 @@ flowchart TD
     S1 --> Pool
     Q1 -.->|Nếu cả 5/5 chunks bị khóa| Refusal[🛑 Safe Refusal Message\nTừ chối an toàn, không gọi LLM]
 
-    Pool --> XML[🔒 XML Context Sandboxing\n<trusted_knowledge_base> + Hardened System Prompt]
-    XML --> LLM[🤖 LLM Generator\nQwen3.8-27B | temp=0.0]
+    Pool --> XML["🔒 XML Context Sandboxing\n<trusted_knowledge_base> + Hardened System Prompt"]
+    XML --> LLM["🤖 LLM Generator\nQwen3.8-27B | temp=0.0"]
     LLM --> Out[💬 Câu trả lời An toàn + Audit Log JSONL]
-
 ```
 
 ### 6 Cơ Chế Xử Lý Tình Huống Biên (Middleware Edge Cases)
