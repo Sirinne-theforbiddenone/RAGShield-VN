@@ -1,0 +1,24 @@
+model:
+  pretrained_name: "xlm-roberta-base"
+  # Thay username bằng tên tài khoản Hugging Face của bạn nếu đẩy lên Hub
+  hub_model_id: "your-username/ragshield-vn-xlmr-base"
+  local_model_dir: "models/xlmr_ragshield_best"
+  num_labels: 2
+  max_length: 384
+
+training:
+  seed: 42
+  epochs: 5
+  batch_size: 16
+  learning_rate: 2.0e-5
+  warmup_ratio: 0.10
+  weight_decay: 0.01
+  fp16: true
+  early_stopping_patience: 2
+  metric_for_best_model: "f1"
+
+data:
+  train_path: "data/processed/train.jsonl"
+  val_path: "data/processed/val.jsonl"
+  test_path: "data/processed/test.jsonl"
+  ood_path: "data/processed/ood.jsonl"

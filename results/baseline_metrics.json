@@ -1,0 +1,260 @@
+{
+  "model_name": "TF-IDF (word 1-2 + char_wb 3-5) + LogisticRegression",
+  "training_time_sec": 0.1992,
+  "calibrated_threshold": 0.4583,
+  "metrics_calibrated": {
+    "val": {
+      "num_samples": 74,
+      "threshold_used": 0.4583,
+      "precision": 0.8293,
+      "recall": 0.9189,
+      "f1_score": 0.8718,
+      "accuracy": 0.8649,
+      "roc_auc": 0.9014,
+      "overall_fpr": 0.1892,
+      "hard_negative_stats": {
+        "total_hard_negatives": 8,
+        "false_positives": 2,
+        "hard_negative_fpr": 0.25
+      },
+      "confusion_matrix": {
+        "tn": 30,
+        "fp": 7,
+        "fn": 3,
+        "tp": 34
+      },
+      "latency_cpu_ms": {
+        "mean_ms": 1.371,
+        "p95_ms": 1.84
+      }
+    },
+    "in_domain_test": {
+      "num_samples": 76,
+      "threshold_used": 0.4583,
+      "precision": 0.75,
+      "recall": 0.8684,
+      "f1_score": 0.8049,
+      "accuracy": 0.7895,
+      "roc_auc": 0.8892,
+      "overall_fpr": 0.2895,
+      "hard_negative_stats": {
+        "total_hard_negatives": 11,
+        "false_positives": 4,
+        "hard_negative_fpr": 0.3636
+      },
+      "confusion_matrix": {
+        "tn": 27,
+        "fp": 11,
+        "fn": 5,
+        "tp": 33
+      },
+      "latency_cpu_ms": {
+        "mean_ms": 1.281,
+        "p95_ms": 1.562
+      }
+    },
+    "ood_challenge": {
+      "num_samples": 100,
+      "threshold_used": 0.4583,
+      "precision": 0.5616,
+      "recall": 0.82,
+      "f1_score": 0.6667,
+      "accuracy": 0.59,
+      "roc_auc": 0.7852,
+      "overall_fpr": 0.64,
+      "hard_negative_stats": {
+        "total_hard_negatives": 26,
+        "false_positives": 25,
+        "hard_negative_fpr": 0.9615
+      },
+      "confusion_matrix": {
+        "tn": 18,
+        "fp": 32,
+        "fn": 9,
+        "tp": 41
+      },
+      "latency_cpu_ms": {
+        "mean_ms": 1.141,
+        "p95_ms": 1.471
+      }
+    }
+  },
+  "metrics_default_threshold_05": {
+    "in_domain_test": {
+      "num_samples": 76,
+      "threshold_used": 0.5,
+      "precision": 0.7838,
+      "recall": 0.7632,
+      "f1_score": 0.7733,
+      "accuracy": 0.7763,
+      "roc_auc": 0.8892,
+      "overall_fpr": 0.2105,
+      "hard_negative_stats": {
+        "total_hard_negatives": 11,
+        "false_positives": 1,
+        "hard_negative_fpr": 0.0909
+      },
+      "confusion_matrix": {
+        "tn": 30,
+        "fp": 8,
+        "fn": 9,
+        "tp": 29
+      },
+      "latency_cpu_ms": {
+        "mean_ms": 1.243,
+        "p95_ms": 1.509
+      }
+    },
+    "ood_challenge": {
+      "num_samples": 100,
+      "threshold_used": 0.5,
+      "precision": 0.629,
+      "recall": 0.78,
+      "f1_score": 0.6964,
+      "accuracy": 0.66,
+      "roc_auc": 0.7852,
+      "overall_fpr": 0.46,
+      "hard_negative_stats": {
+        "total_hard_negatives": 26,
+        "false_positives": 18,
+        "hard_negative_fpr": 0.6923
+      },
+      "confusion_matrix": {
+        "tn": 27,
+        "fp": 23,
+        "fn": 11,
+        "tp": 39
+      },
+      "latency_cpu_ms": {
+        "mean_ms": 1.121,
+        "p95_ms": 1.399
+      }
+    }
+  },
+  "explainability_top_features": {
+    "top_injection_features": [
+      [
+        "word_ngram__câu",
+        0.9991
+      ],
+      [
+        "word_ngram__lời",
+        0.9806
+      ],
+      [
+        "word_ngram__trả",
+        0.9771
+      ],
+      [
+        "word_ngram__trả lời",
+        0.9636
+      ],
+      [
+        "word_ngram__câu trả",
+        0.8403
+      ],
+      [
+        "word_ngram__lời của",
+        0.7677
+      ],
+      [
+        "word_ngram__người dùng",
+        0.6727
+      ],
+      [
+        "char_ngram__câu",
+        0.6379
+      ],
+      [
+        "char_ngram__ câu",
+        0.6379
+      ],
+      [
+        "word_ngram__của bạn",
+        0.6335
+      ],
+      [
+        "char_ngram__lời",
+        0.626
+      ],
+      [
+        "char_ngram__ lời",
+        0.626
+      ],
+      [
+        "char_ngram__ lờ",
+        0.626
+      ],
+      [
+        "char_ngram__trả ",
+        0.6212
+      ],
+      [
+        "char_ngram__rả ",
+        0.6212
+      ]
+    ],
+    "top_benign_features": [
+      [
+        "word_ngram__chữ",
+        -0.4196
+      ],
+      [
+        "word_ngram__năm",
+        -0.3889
+      ],
+      [
+        "word_ngram__việt",
+        -0.3708
+      ],
+      [
+        "word_ngram__chủ",
+        -0.3468
+      ],
+      [
+        "word_ngram__chữ cái",
+        -0.3211
+      ],
+      [
+        "word_ngram__ngôn ngữ",
+        -0.3121
+      ],
+      [
+        "word_ngram__thứ",
+        -0.3101
+      ],
+      [
+        "word_ngram__ngôn",
+        -0.2987
+      ],
+      [
+        "word_ngram__triển",
+        -0.2828
+      ],
+      [
+        "word_ngram__nghệ",
+        -0.2789
+      ],
+      [
+        "word_ngram__phố",
+        -0.2746
+      ],
+      [
+        "word_ngram__chính",
+        -0.265
+      ],
+      [
+        "word_ngram__phát",
+        -0.2648
+      ],
+      [
+        "word_ngram__là chữ",
+        -0.2642
+      ],
+      [
+        "word_ngram__thành phố",
+        -0.2628
+      ]
+    ]
+  }
+}
