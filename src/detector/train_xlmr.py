@@ -1,6 +1,7 @@
 import argparse
 import inspect
 import json
+import math
 import os
 import random
 from pathlib import Path
@@ -68,7 +69,7 @@ class RAGShieldDataset(Dataset):
             item["text"],
             truncation=True,
             max_length=self.max_length,
-            padding=False,  # Dùng DataCollatorWithPadding để dynamic padding nhanh hơn
+            padding=False,
         )
         encoding["labels"] = int(item["label"])
         return encoding
@@ -77,7 +78,6 @@ class RAGShieldDataset(Dataset):
 def compute_metrics(eval_pred):
     """Tính các chỉ số đánh giá cho lớp INJECTION (label=1) sau mỗi epoch."""
     logits, labels = eval_pred
-    # Tính xác suất softmax cho lớp 1 (INJECTION)
     probs = torch.softmax(torch.tensor(logits, dtype=torch.float32), dim=-1)[:, 1].numpy()
     preds = (probs >= 0.5).astype(int)
 
@@ -167,14 +167,21 @@ def main():
     val_dataset = RAGShieldDataset(val_records, tokenizer, max_length=max_length)
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-    # 4. Thiết lập TrainingArguments (Tương thích cả transformers cũ và mới)
+    # 4. Tính toán warmup_steps từ warmup_ratio (tương thích transformers v4 & v5)
+    epochs = float(train_cfg.get("epochs", 5))
+    batch_size = int(train_cfg.get("batch_size", 16))
+    warmup_ratio = float(train_cfg.get("warmup_ratio", 0.10))
+    total_steps = int(math.ceil(len(train_dataset) / batch_size) * epochs)
+    warmup_steps = int(total_steps * warmup_ratio)
+    print(f"=== Tổng số steps: {total_steps} | Warmup steps (10%): {warmup_steps} ===")
+
     ta_kwargs = {
         "output_dir": str(checkpoint_dir),
-        "num_train_epochs": float(train_cfg.get("epochs", 5)),
-        "per_device_train_batch_size": int(train_cfg.get("batch_size", 16)),
-        "per_device_eval_batch_size": int(train_cfg.get("batch_size", 16)),
+        "num_train_epochs": epochs,
+        "per_device_train_batch_size": batch_size,
+        "per_device_eval_batch_size": batch_size,
         "learning_rate": float(train_cfg.get("learning_rate", 2e-5)),
-        "warmup_ratio": float(train_cfg.get("warmup_ratio", 0.10)),
+        "warmup_steps": warmup_steps,
         "weight_decay": float(train_cfg.get("weight_decay", 0.01)),
         "fp16": use_fp16,
         "save_strategy": "epoch",
@@ -187,29 +194,35 @@ def main():
         "report_to": "none",
     }
 
-    # Kiểm tra tên tham số evaluation_strategy vs eval_strategy
-    sig = inspect.signature(TrainingArguments.__init__).parameters
-    if "eval_strategy" in sig:
+    ta_sig = inspect.signature(TrainingArguments.__init__).parameters
+    if "eval_strategy" in ta_sig:
         ta_kwargs["eval_strategy"] = "epoch"
     else:
         ta_kwargs["evaluation_strategy"] = "epoch"
 
     training_args = TrainingArguments(**ta_kwargs)
 
-    trainer = Trainer(
-        model=model,
-        args=training_args,
-        train_dataset=train_dataset,
-        eval_dataset=val_dataset,
-        tokenizer=tokenizer,
-        data_collator=data_collator,
-        compute_metrics=compute_metrics,
-        callbacks=[
+    # Tự động tương thích tham số processing_class (v5) vs tokenizer (v4) trong Trainer
+    trainer_kwargs = {
+        "model": model,
+        "args": training_args,
+        "train_dataset": train_dataset,
+        "eval_dataset": val_dataset,
+        "data_collator": data_collator,
+        "compute_metrics": compute_metrics,
+        "callbacks": [
             EarlyStoppingCallback(
                 early_stopping_patience=int(train_cfg.get("early_stopping_patience", 2))
             )
         ],
-    )
+    }
+    trainer_sig = inspect.signature(Trainer.__init__).parameters
+    if "processing_class" in trainer_sig:
+        trainer_kwargs["processing_class"] = tokenizer
+    elif "tokenizer" in trainer_sig:
+        trainer_kwargs["tokenizer"] = tokenizer
+
+    trainer = Trainer(**trainer_kwargs)
 
     # 5. Bắt đầu Fine-tune
     print("\n=== BẮT ĐẦU HUẤN LUYỆN XLM-ROBERTA-BASE ===")
@@ -231,7 +244,7 @@ def main():
     tokenizer.save_pretrained(str(output_dir))
     print(f"\n=== Đã lưu Model & Tokenizer tốt nhất tại: {output_dir} ===")
 
-    # Lưu log lịch sử huấn luyện để vẽ biểu đồ nếu cần
+    # Lưu log lịch sử huấn luyện
     history_path = Path("results/xlmr_train_history.json")
     history_path.parent.mkdir(parents=True, exist_ok=True)
     with open(history_path, "w", encoding="utf-8") as f:
