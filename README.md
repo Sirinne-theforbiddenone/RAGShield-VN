@@ -32,7 +32,7 @@ flowchart TD
     U[👤 Truy vấn của Nhân viên] --> R[🔍 Vector Retriever\nChromaDB + BAAI/bge-m3\nRetrieve Top-K = 5 Chunks]
     R --> G[🛡️ RAGShield-VN Guard Middleware\nScoring Batch 5 Chunks vớiDetector]
 
-    G --> C1{Đánh giá Điểm rủi ro p_i\nT_low = 0.45 | T_high = 0.70}
+    G --> C1{"Đánh giá Điểm rủi ro p_i\nT_low = 0.45 | T_high = 0.70"}
 
     C1 -->|p_i < 0.45| A1[✅ ALLOW\nGiữ nguyên văn bản gốc]
     C1 -->|0.45 <= p_i < 0.70| S1[🧹 SANITIZE_AND_FLAG\nTách câu & cắt bỏ câu có p_sent >= 0.45\nThay bằng nhãn cảnh báo bảo mật]
@@ -48,6 +48,7 @@ flowchart TD
     Pool --> XML[🔒 XML Context Sandboxing\n<trusted_knowledge_base> + Hardened System Prompt]
     XML --> LLM[🤖 LLM Generator\nQwen3.8-27B | temp=0.0]
     LLM --> Out[💬 Câu trả lời An toàn + Audit Log JSONL]
+
 ```
 
 ### 6 Cơ Chế Xử Lý Tình Huống Biên (Middleware Edge Cases)
