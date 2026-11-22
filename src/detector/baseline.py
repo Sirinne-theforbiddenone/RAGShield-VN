@@ -183,11 +183,11 @@ def evaluate_split(
     overall_fpr = fp / (fp + tn) if (fp + tn) > 0 else 0.0
 
     # Tính False Positive Rate (FPR) riêng trên tập Hard Negatives
-    # Nhận diện mẫu Hard Negative qua trường category (vd: "hard_negative_it_sop")
+        # Sửa dòng lọc Hard Negatives trong hàm evaluate_split() của src/detector/baseline.py:
     hard_neg_indices = [
         i
         for i, (label, cat) in enumerate(zip(y_true, categories))
-        if label == 0 and ("hard" in cat or "neg" in cat)
+        if label == 0 and cat == "hard_negative"
     ]
 
     if len(hard_neg_indices) > 0:

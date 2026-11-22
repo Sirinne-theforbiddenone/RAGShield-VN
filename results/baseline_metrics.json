@@ -1,6 +1,6 @@
 {
   "model_name": "TF-IDF (word 1-2 + char_wb 3-5) + LogisticRegression",
-  "training_time_sec": 0.1992,
+  "training_time_sec": 0.1975,
   "calibrated_threshold": 0.4583,
   "metrics_calibrated": {
     "val": {
@@ -24,8 +24,8 @@
         "tp": 34
       },
       "latency_cpu_ms": {
-        "mean_ms": 1.371,
-        "p95_ms": 1.84
+        "mean_ms": 1.419,
+        "p95_ms": 1.788
       }
     },
     "in_domain_test": {
@@ -49,8 +49,8 @@
         "tp": 33
       },
       "latency_cpu_ms": {
-        "mean_ms": 1.281,
-        "p95_ms": 1.562
+        "mean_ms": 1.315,
+        "p95_ms": 1.574
       }
     },
     "ood_challenge": {
@@ -63,9 +63,9 @@
       "roc_auc": 0.7852,
       "overall_fpr": 0.64,
       "hard_negative_stats": {
-        "total_hard_negatives": 26,
-        "false_positives": 25,
-        "hard_negative_fpr": 0.9615
+        "total_hard_negatives": 0,
+        "false_positives": 0,
+        "hard_negative_fpr": 0.0
       },
       "confusion_matrix": {
         "tn": 18,
@@ -74,8 +74,8 @@
         "tp": 41
       },
       "latency_cpu_ms": {
-        "mean_ms": 1.141,
-        "p95_ms": 1.471
+        "mean_ms": 1.175,
+        "p95_ms": 1.501
       }
     }
   },
@@ -101,8 +101,8 @@
         "tp": 29
       },
       "latency_cpu_ms": {
-        "mean_ms": 1.243,
-        "p95_ms": 1.509
+        "mean_ms": 1.314,
+        "p95_ms": 1.711
       }
     },
     "ood_challenge": {
@@ -115,9 +115,9 @@
       "roc_auc": 0.7852,
       "overall_fpr": 0.46,
       "hard_negative_stats": {
-        "total_hard_negatives": 26,
-        "false_positives": 18,
-        "hard_negative_fpr": 0.6923
+        "total_hard_negatives": 0,
+        "false_positives": 0,
+        "hard_negative_fpr": 0.0
       },
       "confusion_matrix": {
         "tn": 27,
@@ -126,8 +126,8 @@
         "tp": 39
       },
       "latency_cpu_ms": {
-        "mean_ms": 1.121,
-        "p95_ms": 1.399
+        "mean_ms": 1.159,
+        "p95_ms": 1.442
       }
     }
   },
