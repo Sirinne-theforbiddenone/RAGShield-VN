@@ -1,7 +1,7 @@
 model:
   pretrained_name: "xlm-roberta-base"
   # Thay username bằng tên tài khoản Hugging Face của bạn nếu đẩy lên Hub
-  hub_model_id: "your-username/ragshield-vn-xlmr-base"
+  hub_model_id: "Sirinne/ragshield-vn-xlmr-base"
   local_model_dir: "models/xlmr_ragshield_best"
   num_labels: 2
   max_length: 384
