@@ -1,0 +1,13 @@
+thresholds:
+  T_low: 0.45
+  T_high: 0.7
+retrieval:
+  top_k_fetch: 5
+  max_safe_chunks: 3
+sanitizer:
+  sentence_risk_threshold: 0.5
+  mixed_payload_word_limit: 150
+  redaction_placeholder: '[NỘI DUNG BỊ LỌC DO RỦI RO BẢO MẬT]'
+safe_refusal_message: Xin lỗi, tài liệu liên quan đến câu hỏi này hiện đang bị tạm
+  khóa do phát hiện dấu hiệu vi phạm chính sách an toàn dữ liệu.
+audit_log_path: logs/audit_log.jsonl

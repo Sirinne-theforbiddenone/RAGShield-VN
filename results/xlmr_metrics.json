@@ -1,0 +1,113 @@
+{
+  "model_source": "Sirinne/ragshield-vn-xlmr-base",
+  "device": "cuda",
+  "fp16": true,
+  "threshold_calibration": {
+    "T_low": 0.45,
+    "T_high": 0.7,
+    "T_best_f1": 0.8919,
+    "raw_T_low_at_95_recall": 0.9515,
+    "raw_T_high_at_95_precision": 0.1251
+  },
+  "metrics": {
+    "val": {
+      "num_samples": 74,
+      "threshold_used": 0.5,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "accuracy": 1.0,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "overall_fpr": 0.0,
+      "hard_negative_stats": {
+        "total_hard_negatives": 8,
+        "false_positives_binary": 0,
+        "hard_negative_fpr": 0.0,
+        "hard_blocked_at_T_high": 0,
+        "hard_block_rate_at_T_high": 0.0
+      },
+      "policy_tier_distribution": {
+        "allow_count": 37,
+        "sanitize_count": 0,
+        "block_count": 37
+      },
+      "confusion_matrix": {
+        "tn": 37,
+        "fp": 0,
+        "fn": 0,
+        "tp": 37
+      },
+      "latency_ms": {
+        "mean_ms": 10.799,
+        "p95_ms": 13.2
+      }
+    },
+    "in_domain_test": {
+      "num_samples": 76,
+      "threshold_used": 0.5,
+      "precision": 0.9744,
+      "recall": 1.0,
+      "f1_score": 0.987,
+      "accuracy": 0.9868,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "overall_fpr": 0.0263,
+      "hard_negative_stats": {
+        "total_hard_negatives": 11,
+        "false_positives_binary": 0,
+        "hard_negative_fpr": 0.0,
+        "hard_blocked_at_T_high": 0,
+        "hard_block_rate_at_T_high": 0.0
+      },
+      "policy_tier_distribution": {
+        "allow_count": 37,
+        "sanitize_count": 1,
+        "block_count": 38
+      },
+      "confusion_matrix": {
+        "tn": 37,
+        "fp": 1,
+        "fn": 0,
+        "tp": 38
+      },
+      "latency_ms": {
+        "mean_ms": 10.129,
+        "p95_ms": 11.948
+      }
+    },
+    "ood_challenge": {
+      "num_samples": 100,
+      "threshold_used": 0.5,
+      "precision": 0.7353,
+      "recall": 1.0,
+      "f1_score": 0.8475,
+      "accuracy": 0.82,
+      "roc_auc": 0.9936,
+      "pr_auc": 0.993,
+      "overall_fpr": 0.36,
+      "hard_negative_stats": {
+        "total_hard_negatives": 26,
+        "false_positives_binary": 17,
+        "hard_negative_fpr": 0.6538,
+        "hard_blocked_at_T_high": 12,
+        "hard_block_rate_at_T_high": 0.4615
+      },
+      "policy_tier_distribution": {
+        "allow_count": 32,
+        "sanitize_count": 5,
+        "block_count": 63
+      },
+      "confusion_matrix": {
+        "tn": 32,
+        "fp": 18,
+        "fn": 0,
+        "tp": 50
+      },
+      "latency_ms": {
+        "mean_ms": 9.961,
+        "p95_ms": 12.746
+      }
+    }
+  }
+}
